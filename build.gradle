@@ -19,14 +19,14 @@ dependencies {
     testCompile group: 'org.assertj', name: 'assertj-core', version: '3.15.0'
 }
 
-test {
+task testCI(type:Test) {
+    systemProperties['browser'] = 'firefox'
+    systemProperties['remote'] = 'http://hub:4444/wd/hub'
+}
+tasks.withType(Test) {
     useJUnitPlatform()
     testLogging {
         events 'PASSED', 'FAILED', 'SKIPPED'
         exceptionFormat = 'full'
     }
-}
-task testCI(type:Test) {
-    systemProperties['browser'] = 'firefox'
-    systemProperties['remote'] = 'http://hub:4444/wd/hub'
 }
