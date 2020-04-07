@@ -20,4 +20,4 @@ jobs:
         env:
           JAVA_OPTS: -Dselenide.remote=http://hub:4444/wd/hub -Dremote=http://hub:4444/wd/hub -Dselenide.browser=firefox -Dbrowser=firefox
         with:
-          arguments: test
+          arguments: testCI
