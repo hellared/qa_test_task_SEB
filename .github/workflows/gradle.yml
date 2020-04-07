@@ -18,6 +18,6 @@ jobs:
           java-version: 11
       - uses: eskatos/gradle-command-action@v1
         env:
-          JAVA_OPTS: -Dselenide.remote=http://hub:4444/wd/hub -Dremote=http://hub:4444/wd/hub
+          JAVA_OPTS: -Dselenide.remote=http://hub:4444/wd/hub -Dremote=http://hub:4444/wd/hub -Dselenide.browser=firefox -Dbrowser=firefox
         with:
           arguments: test
