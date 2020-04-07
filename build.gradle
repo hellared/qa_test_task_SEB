@@ -19,14 +19,19 @@ dependencies {
     testCompile group: 'org.assertj', name: 'assertj-core', version: '3.15.0'
 }
 
-task testCI(type:Test) {
-    systemProperties['browser'] = 'firefox'
-    systemProperties['remote'] = 'http://hub:4444/wd/hub'
-}
-tasks.withType(Test) {
+test {
     useJUnitPlatform()
     testLogging {
         events 'PASSED', 'FAILED', 'SKIPPED'
         exceptionFormat = 'full'
     }
+}
+task chrome(type: Test) {
+    systemProperties['browser'] = 'chrome'
+    systemProperties['webdriver.chrome.driver'] = '/usr/bin/chromedriver'
+}
+tasks.withType(Test).all { testTask ->
+    testTask.systemProperties['file.encoding'] = 'UTF-8'
+    testTask.testLogging.showStandardStreams = true
+    testTask.outputs.upToDateWhen { false }
 }

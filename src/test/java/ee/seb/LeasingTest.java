@@ -2,6 +2,8 @@ package ee.seb;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Selenide.*;
@@ -9,25 +11,30 @@ import static com.codeborne.selenide.WebDriverRunner.url;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-public class LeasingTest {
+public class LeasingTest extends BaseTest{
+    @BeforeEach
+    public void openLeasingPage() {
+        open("/loan-and-leasing/leasing/car-leasing#calculator");
+    }
+    @AfterEach
+    public void cleatCookie() {
+        // Clear cache
+        clearBrowserCookies();
+        clearBrowserLocalStorage();
+    }
     @Test
     public void testCanReachLeasingPage() {
-        // Open page
-        open("http://www.seb.ee/eng/loan-and-leasing/leasing/car-leasing#calculator");
+
         $("body > div.seb-cookie-consent.seb-cookiemessage > div > div:nth-child(4) > ul > li:nth-child(1) > a").click();
         // Accept cookies
         $("body > div.seb-cookie-consent.seb-cookiemessage > div > div.header-cookie-message").shouldNot(Condition.visible);
         // Check titles of the menu bar
         $("#box04 > ul > li:nth-child(3) > div").shouldNot(Condition.have(Condition.attribute("href")));
         $("#box04 > ul > li.last > div").shouldNot(Condition.have(Condition.attribute("href")));
-        // Clear cache
-        Selenide.clearBrowserCookies();
-        Selenide.clearBrowserLocalStorage();
     }
 
     @Test
     public void testCanSubmitApplication() {
-        open("http://www.seb.ee/eng/loan-and-leasing/leasing/car-leasing#calculator");
         $("body > div.seb-cookie-consent.seb-cookiemessage > div > div:nth-child(4) > ul > li:nth-child(1) > a").click();
         $("body > div.seb-cookie-consent.seb-cookiemessage > div > div.header-cookie-message").shouldNot(Condition.visible);
 
@@ -42,7 +49,6 @@ public class LeasingTest {
     }
     @Test
     public void applyForLeasingWithAllFields() {
-        open("http://www.seb.ee/eng/loan-and-leasing/leasing/car-leasing#calculator");
         $("body > div.seb-cookie-consent.seb-cookiemessage > div > div:nth-child(4) > ul > li:nth-child(1) > a").click();
         $("body > div.seb-cookie-consent.seb-cookiemessage > div > div.header-cookie-message").shouldNot(Condition.visible);
 
