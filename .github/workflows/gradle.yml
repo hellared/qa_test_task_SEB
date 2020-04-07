@@ -3,6 +3,14 @@ on: push
 jobs:
   gradle:
     runs-on: ubuntu-latest
+    services:
+      hub:
+        image: selenium/hub:3.141.59-gold
+      firefox:
+        image: selenium/node-firefox:3.141.59-gold
+        env:
+          HUB_HOST: hub
+          HUB_PORT: 4444
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-java@v1
