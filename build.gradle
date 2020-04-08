@@ -17,9 +17,11 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.1")
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.1'
     testCompile group: 'org.assertj', name: 'assertj-core', version: '3.15.0'
+    implementation 'org.testng:testng:6.9.6'
 }
 
 test {
+    useTestNG()
     useJUnitPlatform()
     testLogging {
         events 'PASSED', 'FAILED', 'SKIPPED'
@@ -32,6 +34,4 @@ task chrome(type: Test) {
 }
 tasks.withType(Test).all { testTask ->
     testTask.systemProperties['file.encoding'] = 'UTF-8'
-    testTask.testLogging.showStandardStreams = true
-    testTask.outputs.upToDateWhen { false }
 }
