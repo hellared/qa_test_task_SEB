@@ -1,13 +1,17 @@
 package ee.seb;
 
 import com.codeborne.selenide.Selenide;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static com.codeborne.selenide.Selenide.clearBrowserCookies;
 
-public class LeasingTest extends BaseTest{
+
+public class LeasingTest extends BaseTest {
     protected LeasingPage leasingPage = new LeasingPage();
     protected AcceptCookieModal acceptCookieModal = new AcceptCookieModal();
+
     @BeforeEach
     public void openPage() {
         Selenide.open("/loan-and-leasing/leasing/car-leasing#calculator");
@@ -18,14 +22,20 @@ public class LeasingTest extends BaseTest{
                 "I agree"
         );
         acceptCookieModal.acceptAction();
-}
+    }
+
+    @AfterEach
+    public void clearCookie() {
+        clearBrowserCookies();
+    }
+
     @Test
     public void testCanReachLeasingPage() {
         Selenide.open("/loan-and-leasing/leasing/car-leasing#calculator");
         leasingPage.checkMenuIsSelected("Loan and  Leasing");
         leasingPage.checkMenuIsSelected("Car leasing");
-        
     }
+
     @Test
     public void testCanSubmitApplication() {
         leasingPage.submitApplicationViaIBank()
