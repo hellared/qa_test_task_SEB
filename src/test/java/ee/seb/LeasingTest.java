@@ -1,18 +1,19 @@
 package ee.seb;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
-import static com.codeborne.selenide.Selenide.clearBrowserCookies;
+import static com.codeborne.selenide.Selenide.switchTo;
 
-
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class LeasingTest extends BaseTest {
+
     protected LeasingPage leasingPage = new LeasingPage();
+    protected SubmitApplicationPage submitApplicationPage = new SubmitApplicationPage();
     protected AcceptCookieModal acceptCookieModal = new AcceptCookieModal();
 
-    @BeforeEach
+    @BeforeAll
     public void openPage() {
         Selenide.open("/loan-and-leasing/leasing/car-leasing#calculator");
         acceptCookieModal.checkModalText(
@@ -24,46 +25,62 @@ public class LeasingTest extends BaseTest {
         acceptCookieModal.acceptAction();
     }
 
+    @BeforeEach
+    public void refreshPage() {
+        Selenide.refresh();
+    }
+
     @AfterEach
-    public void clearCookie() {
-        clearBrowserCookies();
+    public void returnToPage() {
+        switchTo().window(0);
+    }
+
+    @Test
+    public void testCanAddToComparison() {
+        leasingPage.openCarLeasingCalculator()
+                .setVehiclePrice("50000")
+                .setDownpayments("3")
+                .applyComparison();
+        leasingPage.monthlyPayments.shouldNotBe(Condition.empty);
+        leasingPage.comparisonBlock.should(Condition.appear).shouldNotBe(Condition.empty);
+    }
+
+    @Test
+    public void testCanSeeSchedule() {
+        leasingPage.openCarLeasingCalculator()
+                .setVehiclePrice("50000")
+                .setDownpayments("3")
+                .applySchedule();
+        leasingPage.scheduleBlock.should(Condition.appear).shouldNotBe(Condition.empty);
     }
 
     @Test
     public void testCanReachLeasingPage() {
-        Selenide.open("/loan-and-leasing/leasing/car-leasing#calculator");
-        leasingPage.checkMenuIsSelected("Loan and  Leasing");
-        leasingPage.checkMenuIsSelected("Car leasing");
+        leasingPage.checkMenuIsSelected("Loan and  Leasing")
+                .checkMenuIsSelected("Car leasing");
     }
 
     @Test
     public void testCanSubmitApplication() {
         leasingPage.submitApplicationViaIBank()
                 .checkUserIsOnLoginPage();
+        Selenide.closeWindow();
     }
-//    @Test
-//    public void applyForLeasingWithAllFields() {
-//        Selenide.open("/loan-and-leasing/leasing/car-leasing#calculator");
-//        System.out.println("Test");
-//        clearBrowserCookies();
-//        System.out.println("AfterEach");
-//        $("body > div.seb-cookie-consent.seb-cookiemessage > div > div:nth-child(4) > ul > li:nth-child(1) > a").click();
-//        $("body > div.seb-cookie-consent.seb-cookiemessage > div > div.header-cookie-message").shouldNot(Condition.visible);
-//
-//        $("#coApplicant").scrollTo();
-//        $("#coApplicant").setSelected(true);
-//        $("#netoIncome").setValue("2000");
-//        $("#monthlyFinancialObligations").setValue("500");
-//        $("#numOfDependants").setValue("2");
-//
-//        $("#leaseSum").shouldHave(Condition.text("12 320"));
-//        $("#resultWrapperNumber > div.buttons-container")
-//                .shouldBe(Condition.visible);
-//        $("#resultWrapperNumber > div.buttons-container")
-//                .shouldBe(Condition.enabled).click();
-//        $("#TB_main").shouldBe(Condition.visible);
-//        $("#TB_content_container > div > ul > li:nth-child(2) > a").click();
-//        switchTo().window(1);
-//        assertThat(url()).contains("ip/ipank.p?act=CRMCONTACT&topic_code=t_lseauto&pt=unknown");
-//    }
+
+    @Test
+    public void applyForLeasingWithAllFields() {
+        leasingPage
+                .setNetIncome("2000")
+                .setFinancialObligations("500")
+                .setDependants("2")
+                .applySurety();
+        leasingPage.leaseSum.shouldHave(Condition.text("20 530"));
+        leasingPage.resultSum.shouldBe(Condition.visible);
+        leasingPage.resultButtons.shouldBe(Condition.visible)
+                .shouldBe(Condition.enabled);
+        leasingPage.proceedToApplication()
+                .submitApplication();
+        submitApplicationPage.checkUserIsOnSubmitApplicationPage();
+        Selenide.closeWindow();
+    }
 }
