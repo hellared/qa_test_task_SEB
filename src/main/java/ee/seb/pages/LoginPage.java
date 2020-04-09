@@ -1,4 +1,4 @@
-package ee.seb;
+package ee.seb.pages;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;

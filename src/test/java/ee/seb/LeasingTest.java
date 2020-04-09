@@ -2,6 +2,9 @@ package ee.seb;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
+import ee.seb.modals.AcceptCookieModal;
+import ee.seb.pages.LeasingPage;
+import ee.seb.pages.SubmitApplicationPage;
 import org.junit.jupiter.api.*;
 
 import static com.codeborne.selenide.Selenide.switchTo;

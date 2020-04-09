@@ -1,4 +1,4 @@
-package ee.seb;
+package ee.seb.modals;
 
 import com.codeborne.selenide.SelenideElement;
 
