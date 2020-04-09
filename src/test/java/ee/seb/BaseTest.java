@@ -12,7 +12,7 @@ public class BaseTest {
         Configuration.browser = "chrome";
         Configuration.holdBrowserOpen = true;
         Configuration.timeout = 20000;
-        Configuration.headless = false;
+        Configuration.headless = true;
     }
    @AfterAll
    public static void tearDown() {

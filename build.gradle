@@ -20,17 +20,9 @@ dependencies {
 }
 
 test {
-    useTestNG()
     useJUnitPlatform()
     testLogging {
         events 'PASSED', 'FAILED', 'SKIPPED'
         exceptionFormat = 'full'
     }
-}
-task chrome(type: Test) {
-    systemProperties['browser'] = 'chrome'
-    systemProperties['webdriver.chrome.driver'] = '/usr/bin/chromedriver'
-}
-tasks.withType(Test).all { testTask ->
-    testTask.systemProperties['file.encoding'] = 'UTF-8'
 }
