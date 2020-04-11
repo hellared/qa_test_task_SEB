@@ -2,23 +2,31 @@ package ee.seb;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
-import groovy.util.logging.Slf4j;
+import com.codeborne.selenide.logevents.SelenideLogger;
+import io.qameta.allure.selenide.AllureSelenide;
+import org.junit.BeforeClass;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 
-@Slf4j
+
 public class BaseTest {
+    @BeforeClass
+    public void registerSelenideListener() {
+        SelenideLogger.addListener("AllureSelenide", new AllureSelenide().screenshots(true).savePageSource(false));
+    }
+
     @BeforeAll
     public static void setUp() {
-        Configuration.baseUrl="https://www.seb.ee/eng";
-        Configuration.browser = "chrome";
-        Configuration.holdBrowserOpen = true;
+        Configuration.baseUrl = "https://www.seb.ee/eng";
+        Configuration.browser = "firefox";
+        Configuration.holdBrowserOpen = false;
         Configuration.timeout = 20000;
         Configuration.headless = true;
     }
-   @AfterAll
-   public static void tearDown() {
-       WebDriverRunner.getWebDriver().quit();
-   }
+
+    @AfterAll
+    public static void tearDown() {
+        WebDriverRunner.getWebDriver().quit();
+    }
 }
 

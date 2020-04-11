@@ -2,6 +2,7 @@ package ee.seb.pages;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.switchTo;
@@ -12,6 +13,7 @@ public class LoginPage {
 
     private SelenideElement login = $("#headermain");
 
+    @Step
     public LoginPage checkUserIsOnLoginPage() {
         switchTo().window(1);
         login.shouldBe(Condition.visible);
