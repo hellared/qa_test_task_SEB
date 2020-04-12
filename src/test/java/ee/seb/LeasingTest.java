@@ -5,6 +5,7 @@ import com.codeborne.selenide.Selenide;
 import ee.seb.modals.AcceptCookieModal;
 import ee.seb.pages.LeasingPage;
 import ee.seb.pages.SubmitApplicationPage;
+import io.qameta.allure.Step;
 import org.junit.jupiter.api.*;
 
 import static com.codeborne.selenide.Selenide.switchTo;
@@ -16,6 +17,7 @@ public class LeasingTest extends BaseTest {
     protected SubmitApplicationPage submitApplicationPage = new SubmitApplicationPage();
     protected AcceptCookieModal acceptCookieModal = new AcceptCookieModal();
 
+    @Step
     @BeforeAll
     public void openPage() {
         Selenide.open("/loan-and-leasing/leasing/car-leasing#calculator");
@@ -28,11 +30,13 @@ public class LeasingTest extends BaseTest {
         acceptCookieModal.acceptAction();
     }
 
+    @Step
     @BeforeEach
     public void refreshPage() {
         Selenide.refresh();
     }
 
+    @Step
     @AfterEach
     public void returnToPage() {
         switchTo().window(0);
@@ -44,8 +48,8 @@ public class LeasingTest extends BaseTest {
                 .setVehiclePrice("50000")
                 .setDownpayments("3")
                 .applyComparison();
-        leasingPage.monthlyPayments.shouldNotBe(Condition.empty);
-        leasingPage.comparisonBlock.should(Condition.appear).shouldNotBe(Condition.empty);
+        leasingPage.getMonthlyPayments().shouldNotBe(Condition.empty);
+        leasingPage.getComparisonBlock().should(Condition.appear).shouldNotBe(Condition.empty);
     }
 
     @Test
@@ -54,7 +58,7 @@ public class LeasingTest extends BaseTest {
                 .setVehiclePrice("50000")
                 .setDownpayments("3")
                 .applySchedule();
-        leasingPage.scheduleBlock.should(Condition.appear).shouldNotBe(Condition.empty);
+        leasingPage.getScheduleBlock().should(Condition.appear).shouldNotBe(Condition.empty);
     }
 
     @Test
@@ -77,9 +81,9 @@ public class LeasingTest extends BaseTest {
                 .setFinancialObligations("500")
                 .setDependants("2")
                 .applySurety();
-        leasingPage.leaseSum.shouldHave(Condition.text("20 530"));
-        leasingPage.resultSum.shouldBe(Condition.visible);
-        leasingPage.resultButtons.shouldBe(Condition.visible)
+        leasingPage.getLeaseSum().shouldHave(Condition.text("20 530"));
+        leasingPage.getResultSum().shouldBe(Condition.visible);
+        leasingPage.getResultButtons().shouldBe(Condition.visible)
                 .shouldBe(Condition.enabled);
         leasingPage.proceedToApplication()
                 .submitApplication();

@@ -5,35 +5,38 @@ import com.codeborne.selenide.Selectors;
 import com.codeborne.selenide.SelenideElement;
 import ee.seb.modals.LoginModal;
 import io.qameta.allure.Step;
+import lombok.Getter;
 
 import static com.codeborne.selenide.Selectors.*;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.switchTo;
 
+@Getter
 public class LeasingPage {
 
     // Leasing locators
-    public SelenideElement loanAndLeasingHeader = $(withText("Loan and  Leasing"));
-    public SelenideElement submitViaIBankButton = $(byText("Submit an application in the Internet Bank"));
+    private final SelenideElement loanAndLeasingHeader = $(withText("Loan and  Leasing"));
+    private final SelenideElement submitViaIBankButton = $(byText("Submit an application in the Internet Bank"));
 
     // Car leasing calculator
-    public SelenideElement carLeasingTab = $(byText("Car leasing calculator"));
-    public SelenideElement vehiclePrice = $("#calc08-sum");
-    public SelenideElement downpayment = $("#calc08-deposit");
-    public SelenideElement monthlyPayments = $("monthly-result");
-    public SelenideElement comparisonButton = $(byValue("Add to comparison"));
-    public SelenideElement scheduleButton = $(byValue("Schedule"));
-    public SelenideElement comparisonBlock = $(".calc-result-compare");
-    public SelenideElement scheduleBlock = $(".calc-result-graph");
+    private final SelenideElement carLeasingTab = $(byText("Car leasing calculator"));
+    private final String carFrame = "calculator-frame-08a";
+    private final SelenideElement vehiclePrice = $("#calc08-sum");
+    private final SelenideElement downpayment = $("#calc08-deposit");
+    private final SelenideElement monthlyPayments = $("monthly-result");
+    private final SelenideElement comparisonButton = $(byValue("Add to comparison"));
+    private final SelenideElement scheduleButton = $(byValue("Schedule"));
+    private final SelenideElement comparisonBlock = $(".calc-result-compare");
+    private final SelenideElement scheduleBlock = $(".calc-result-graph");
 
     // Maximum lease calculator
-    public SelenideElement netIncome = $("#netoIncome");
-    public SelenideElement financialObligations = $("#monthlyFinancialObligations");
-    public SelenideElement dependants = $("#numOfDependants");
-    public SelenideElement suretyCheckbox = $(byText("Apply with a surety"));
-    public SelenideElement leaseSum = $("#leaseSum");
-    public SelenideElement resultSum = $("#resultWrapperNumber > div.buttons-container");
-    public SelenideElement resultButtons = $("#resultWrapperNumber > div.buttons-container");
+    private final SelenideElement netIncome = $("#netoIncome");
+    private final SelenideElement financialObligations = $("#monthlyFinancialObligations");
+    private final SelenideElement dependants = $("#numOfDependants");
+    private final SelenideElement suretyCheckbox = $(byText("Apply with a surety"));
+    private final SelenideElement leaseSum = $("#leaseSum");
+    private final SelenideElement resultSum = $("#resultWrapperNumber > div.buttons-container");
+    private final SelenideElement resultButtons = $("#resultWrapperNumber > div.buttons-container");
 
     @Step
     public LoginPage submitApplicationViaIBank() {
@@ -80,7 +83,7 @@ public class LeasingPage {
     @Step
     public LeasingPage openCarLeasingCalculator() {
         carLeasingTab.click();
-        switchTo().frame("calculator-frame-08a");
+        switchTo().frame(carFrame);
         return this;
     }
 

@@ -10,8 +10,8 @@ import static com.codeborne.selenide.Selenide.$;
 
 public class LoginModal {
 
-    private SelenideElement closeButton = $(".close");
-    private SelenideElement applicationButton = $(".-CS-aplication-button");
+    private final SelenideElement closeButton = $(".close");
+    private final SelenideElement applicationButton = $(".-CS-aplication-button");
 
     @Step
     public LeasingPage closeModal() {

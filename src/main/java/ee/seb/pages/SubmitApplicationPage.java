@@ -10,14 +10,17 @@ import static com.codeborne.selenide.WebDriverRunner.url;
 
 public class SubmitApplicationPage {
 
-    private SelenideElement header = $("#headermain");
+    private final SelenideElement header = $("#headermain");
+    private final int windowNumber = 1;
+    private final String headerText = "Sõidukiliising";
+    private final String urlPart = "ip/ipank.p?act=CRMCONTACT&topic_code=t_lseauto";
 
     @Step
     public SubmitApplicationPage checkUserIsOnSubmitApplicationPage() {
-        switchTo().window(1);
+        switchTo().window(windowNumber);
         header.shouldBe(Condition.visible)
-                .shouldHave(Condition.text("Sõidukiliising"));
-        assert (url().contains("ip/ipank.p?act=CRMCONTACT&topic_code=t_lseauto"));
+                .shouldHave(Condition.text(headerText));
+        assert (url().contains(urlPart));
         return this;
     }
 }

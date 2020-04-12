@@ -18,10 +18,6 @@ public class BaseTest {
     @BeforeAll
     public static void setUp() {
         Configuration.baseUrl = "https://www.seb.ee/eng";
-        Configuration.browser = "firefox";
-        Configuration.holdBrowserOpen = false;
-        Configuration.timeout = 20000;
-        Configuration.headless = true;
     }
 
     @AfterAll

@@ -8,9 +8,9 @@ import static com.codeborne.selenide.Selenide.$;
 
 public class AcceptCookieModal {
 
-    private SelenideElement dialogMessage = $(".content-cookie-message");
-    private SelenideElement acceptButton = $(".accept-selected");
-    private SelenideElement manageButton = $(".cookie-settings");
+    private final SelenideElement dialogMessage = $(".content-cookie-message");
+    private final SelenideElement acceptButton = $(".accept-selected");
+    private final SelenideElement manageButton = $(".cookie-settings");
 
     @Step
     public AcceptCookieModal acceptAction() {

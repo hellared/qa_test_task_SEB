@@ -14,6 +14,8 @@ repositories {
 
 dependencies {
     compile group: 'com.codeborne', name: 'selenide', version: '5.10.0'
+    annotationProcessor 'org.projectlombok:lombok:1.18.12'
+    compileOnly 'org.projectlombok:lombok:1.18.12'
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.1")
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.1'
     testRuntimeOnly 'org.slf4j:slf4j-simple:1.7.28'
@@ -33,9 +35,25 @@ allure {
     }
 
 }
-test {
-    useJUnitPlatform()
-    testLogging {
+
+tasks.withType(Test).all { testTask ->
+    testTask.useJUnitPlatform()
+    testTask.testLogging {
         events 'PASSED', 'FAILED', 'SKIPPED'
     }
+    testTask.systemProperties = [
+            'file.encoding': 'UTF-8',
+    ]
+    testTask.testLogging.showStandardStreams = true
+
+}
+
+task chrome(type: Test) {
+    systemProperties['selenide.browser'] = 'chrome'
+    systemProperties['selenide.headless'] = 'true'
+}
+
+task firefox(type: Test) {
+    systemProperties['selenide.browser'] = 'firefox'
+    systemProperties['selenide.headless'] = 'true'
 }

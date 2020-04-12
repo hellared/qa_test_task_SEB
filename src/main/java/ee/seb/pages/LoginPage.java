@@ -11,13 +11,15 @@ import static com.codeborne.selenide.WebDriverRunner.url;
 
 public class LoginPage {
 
-    private SelenideElement login = $("#headermain");
+    private final SelenideElement login = $("#headermain");
+    private final int windowNumber = 1;
+    private final String urlPart = "ip/ipank.p?act=LOGIN&act2=CRMCONTACT&topic_code=t_lseauto&lang=ENG";
 
     @Step
     public LoginPage checkUserIsOnLoginPage() {
-        switchTo().window(1);
+        switchTo().window(windowNumber);
         login.shouldBe(Condition.visible);
-        assert(url().contains("ip/ipank.p?act=LOGIN&act2=CRMCONTACT&topic_code=t_lseauto&lang=ENG"));
+        assert(url().contains(urlPart));
         return this;
     }
 }
